@@ -1,0 +1,6 @@
+
+
+kubectl apply -f mysql-master-deployment.yaml 
+kubectl apply -f librenms-statefulset-mysql-root.yaml 
+
+

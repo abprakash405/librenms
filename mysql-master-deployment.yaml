@@ -1,0 +1,50 @@
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: mysql-master
+  labels:
+   name: mysql-master
+spec:
+  type: ClusterIP
+  ports:
+  - port: 3306
+    targetPort: 3306
+    name: http
+  selector:
+    app: mysql-master
+
+---
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: mysql-master
+  labels:
+    name: mysql-master
+spec:
+  replicas: 1
+  template:
+    metadata:
+     labels:
+       app: mysql-master
+    spec:
+      containers:
+      - name: mysql-master
+        image: huanwei/mysql-master:0.1
+        imagePullPolicy: Always
+        ports:
+        - containerPort: 3306
+        env:
+        - name: MYSQL_ROOT_PASSWORD
+          value: "123456"
+        - name: MYSQL_REPLICATION_USER
+          value: "repl"
+        - name: MYSQL_REPLICAITON_PASSWORD
+          value: "123456"
+        volumeMounts:
+        - mountPath: /var/lib/mysql
+          name: mysql-master-data
+      volumes:
+      - name: mysql-master-data
+        hostPath:
+          path: /data/mysql_master
