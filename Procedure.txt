@@ -1,6 +1,13 @@
 
 
 kubectl apply -f mysql-master-deployment.yaml 
+login to docker container and create librenms database
+
 kubectl apply -f librenms-statefulset-mysql-root.yaml 
+
+kubectl get svc 
+librenms default creds: 
+admin
+admin
 
 
